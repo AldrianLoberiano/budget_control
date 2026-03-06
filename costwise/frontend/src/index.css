@@ -110,8 +110,7 @@ a {
   width: 72px;
 }
 
-.sidebar.collapsed ~ .main-content,
-.sidebar.collapsed + .sidebar-overlay + .main-content {
+[data-sidebar="collapsed"] .main-content {
   margin-left: 72px;
 }
 
@@ -186,6 +185,16 @@ a {
   font-size: 0.95rem;
   width: 100%;
   text-align: left;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-link {
+  justify-content: center;
+  padding: 10px;
+}
+
+.sidebar.collapsed .sidebar-link span {
+  display: none;
 }
 
 .sidebar-link:hover {
@@ -1003,7 +1012,7 @@ a {
 
 .home-features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   text-align: left;
 }
@@ -1326,4 +1335,128 @@ a {
   .search-input-wrapper {
     min-width: 100%;
   }
+}
+
+/* ===== Back to Home Button ===== */
+.back-to-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-500);
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: color 0.2s;
+}
+
+.back-to-home:hover {
+  color: var(--primary);
+}
+
+/* ===== Icon Round Button (theme toggle on homepage) ===== */
+.btn-icon-round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-600);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.btn-icon-round:hover {
+  background: var(--gray-100);
+  color: var(--primary);
+}
+
+/* ===== Dark Theme Overrides ===== */
+[data-theme="dark"] body {
+  background: var(--gray-50);
+  color: var(--gray-800);
+}
+
+[data-theme="dark"] .home-page {
+  background: var(--gray-50);
+}
+
+[data-theme="dark"] .home-nav {
+  background: rgba(22, 22, 42, 0.95);
+  border-bottom-color: var(--gray-200);
+}
+
+[data-theme="dark"] .home-preview-card {
+  background: var(--white);
+  border-color: var(--gray-200);
+}
+
+[data-theme="dark"] .home-preview-header {
+  background: var(--gray-100);
+  border-bottom-color: var(--gray-200);
+}
+
+[data-theme="dark"] .home-feature-card {
+  background: var(--gray-100);
+  border-color: var(--gray-200);
+}
+
+[data-theme="dark"] .home-feature-icon {
+  background: var(--gray-50);
+  border-color: var(--gray-300);
+}
+
+[data-theme="dark"] .home-footer {
+  background: var(--gray-100);
+  border-top-color: var(--gray-200);
+}
+
+[data-theme="dark"] .auth-page {
+  background: var(--gray-50);
+}
+
+[data-theme="dark"] .auth-card {
+  background: var(--white);
+  border-color: var(--gray-200);
+}
+
+[data-theme="dark"] .sidebar-link.active {
+  background: rgba(220, 38, 38, 0.15);
+}
+
+[data-theme="dark"] .budget-item.over {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="dark"] .modal-content {
+  background: var(--white);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .date-input,
+[data-theme="dark"] .filters-bar select,
+[data-theme="dark"] .filters-bar input {
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+  color: var(--gray-800);
+}
+
+[data-theme="dark"] .summary-card-icon.balance {
+  background: rgba(220, 38, 38, 0.15);
+}
+
+[data-theme="dark"] .Toastify__toast {
+  background: var(--gray-100) !important;
+  color: var(--gray-800) !important;
+}
+
+[data-theme="dark"] select option {
+  background: var(--gray-100);
+  color: var(--gray-800);
 }
