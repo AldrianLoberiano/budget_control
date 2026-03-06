@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import {
   MdDashboard,
   MdReceipt,
@@ -10,15 +9,12 @@ import {
   MdMenu,
   MdClose,
   MdSavings,
-  MdDarkMode,
-  MdLightMode,
   MdChevronLeft,
   MdChevronRight,
 } from 'react-icons/md';
 
 const Sidebar = () => {
-  const { user, logout } = useAuth();
-  const { dark, toggleTheme } = useTheme();
+  const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(() => {
     return localStorage.getItem('sidebar-collapsed') === 'true';
@@ -59,9 +55,6 @@ const Sidebar = () => {
           Cost<span>Wise</span>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <button className="hamburger" onClick={toggleTheme} title="Toggle theme">
-            {dark ? <MdLightMode /> : <MdDarkMode />}
-          </button>
           <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <MdClose /> : <MdMenu />}
           </button>
@@ -100,29 +93,7 @@ const Sidebar = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="sidebar-link" onClick={toggleTheme} title={collapsed ? (dark ? 'Light Mode' : 'Dark Mode') : undefined}>
-            {dark ? <MdLightMode /> : <MdDarkMode />}
-            {!collapsed && <span>{dark ? 'Light Mode' : 'Dark Mode'}</span>}
-          </button>
-          {user && !collapsed && (
-            <div className="sidebar-user">
-              <div className="sidebar-user-avatar">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
-              <div className="sidebar-user-info">
-                <p>{user.name}</p>
-                <span>{user.email}</span>
-              </div>
-            </div>
-          )}
-          {user && collapsed && (
-            <div className="sidebar-user" style={{ justifyContent: 'center' }}>
-              <div className="sidebar-user-avatar">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
-            </div>
-          )}
-          <button className="sidebar-link" onClick={handleLogout} title={collapsed ? 'Logout' : undefined} style={{ marginTop: 8 }}>
+          <button className="sidebar-link" onClick={handleLogout} title={collapsed ? 'Logout' : undefined}>
             <MdLogout />
             {!collapsed && <span>Logout</span>}
           </button>
