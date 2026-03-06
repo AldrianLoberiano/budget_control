@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Reports from './pages/Reports';
+import Budgets from './pages/Budgets';
 
 function App() {
   return (
@@ -34,6 +35,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Transactions />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/budgets"
+              element={
+                <PrivateRoute>
+                  <Budgets />
                 </PrivateRoute>
               }
             />
