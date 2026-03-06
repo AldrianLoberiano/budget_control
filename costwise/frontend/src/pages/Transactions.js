@@ -4,7 +4,8 @@ import TransactionForm from '../components/TransactionForm';
 import TransactionList from '../components/TransactionList';
 import { useTransactions } from '../context/TransactionContext';
 import { toast } from 'react-toastify';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdSearch, MdFileDownload } from 'react-icons/md';
+import API from '../utils/api';
 
 const Transactions = () => {
   const {
@@ -20,12 +21,14 @@ const Transactions = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
-  const [filters, setFilters] = useState({ type: '', category: '', page: 1 });
+  const [filters, setFilters] = useState({ type: '', category: '', page: 1, search: '', startDate: '', endDate: '' });
 
   useEffect(() => {
     const params = { limit: 20, page: filters.page };
     if (filters.type) params.type = filters.type;
     if (filters.category) params.category = filters.category;
+    if (filters.startDate) params.startDate = filters.startDate;
+    if (filters.endDate) params.endDate = filters.endDate;
     fetchTransactions(params);
   }, [filters, fetchTransactions]);
 
@@ -73,22 +76,78 @@ const Transactions = () => {
     setFilters((prev) => ({ ...prev, [name]: value, page: 1 }));
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const params = {};
+      if (filters.type) params.type = filters.type;
+      if (filters.startDate) params.startDate = filters.startDate;
+      if (filters.endDate) params.endDate = filters.endDate;
+      const { data } = await API.get('/transactions/export', { params });
+      const blob = new Blob([data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'transactions.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      toast.error('Failed to export');
+    }
+  };
+
+  const filteredTransactions = filters.search
+    ? transactions.filter((t) =>
+        t.description?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        t.category?.toLowerCase().includes(filters.search.toLowerCase())
+      )
+    : transactions;
+
   return (
     <Layout>
       <div className="page-header">
         <h1>Transactions</h1>
-        <button className="btn btn-primary" onClick={() => { setShowForm(true); setEditingTransaction(null); }}>
-          <MdAdd /> Add Transaction
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-outline" onClick={handleExportCSV}>
+            <MdFileDownload /> Export CSV
+          </button>
+          <button className="btn btn-primary" onClick={() => { setShowForm(true); setEditingTransaction(null); }}>
+            <MdAdd /> Add Transaction
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
       <div className="filters-bar">
+        <div className="search-input-wrapper">
+          <MdSearch className="search-icon" />
+          <input
+            type="text"
+            name="search"
+            value={filters.search}
+            onChange={handleFilterChange}
+            placeholder="Search transactions..."
+            className="search-input"
+          />
+        </div>
         <select name="type" value={filters.type} onChange={handleFilterChange}>
           <option value="">All Types</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
+        <input
+          type="date"
+          name="startDate"
+          value={filters.startDate}
+          onChange={handleFilterChange}
+          className="date-input"
+        />
+        <input
+          type="date"
+          name="endDate"
+          value={filters.endDate}
+          onChange={handleFilterChange}
+          className="date-input"
+        />
       </div>
 
       {/* Transaction List */}
@@ -98,7 +157,7 @@ const Transactions = () => {
         ) : (
           <>
             <TransactionList
-              transactions={transactions}
+              transactions={filteredTransactions}
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
