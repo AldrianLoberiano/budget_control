@@ -24,6 +24,27 @@
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
   --radius: 8px;
   --radius-lg: 12px;
+  --sidebar-width: 260px;
+}
+
+/* ===== Dark Theme ===== */
+[data-theme="dark"] {
+  --gray-50: #1a1a2e;
+  --gray-100: #1f1f38;
+  --gray-200: #2a2a45;
+  --gray-300: #3a3a55;
+  --gray-400: #8888a0;
+  --gray-500: #a0a0b8;
+  --gray-600: #c0c0d0;
+  --gray-700: #d0d0e0;
+  --gray-800: #e0e0f0;
+  --gray-900: #f0f0ff;
+  --white: #16162a;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.2);
+  --success-bg: #064e3b;
+  --danger-bg: #7f1d1d;
 }
 
 *,
@@ -54,9 +75,10 @@ a {
 
 .main-content {
   flex: 1;
-  margin-left: 260px;
+  margin-left: var(--sidebar-width);
   padding: 32px;
   max-width: 1200px;
+  transition: margin-left 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -69,7 +91,7 @@ a {
 
 /* ===== Sidebar ===== */
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width);
   background: var(--white);
   border-right: 1px solid var(--gray-200);
   padding: 24px 16px;
@@ -80,20 +102,66 @@ a {
   display: flex;
   flex-direction: column;
   z-index: 100;
-  transition: transform 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar.collapsed ~ .main-content,
+.sidebar.collapsed + .sidebar-overlay + .main-content {
+  margin-left: 72px;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 24px;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 24px;
 }
 
 .sidebar-logo {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary);
-  padding: 0 8px 24px;
-  border-bottom: 1px solid var(--gray-200);
-  margin-bottom: 24px;
+  white-space: nowrap;
 }
 
 .sidebar-logo span {
   color: var(--gray-800);
+}
+
+.sidebar-collapse-btn {
+  background: none;
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-500);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.sidebar-collapse-btn:hover {
+  background: var(--gray-100);
+}
+
+.sidebar.collapsed .sidebar-collapse-btn {
+  margin: 0 auto;
+}
+
+.sidebar.collapsed .sidebar-logo {
+  font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
 }
 
 .sidebar-nav {
