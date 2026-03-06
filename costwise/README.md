@@ -1,27 +1,29 @@
-# CostWise - Expense Tracker
+# CostWise - Budget & Expense Tracker
 
-A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for tracking personal income and expenses with financial dashboards and reports.
+A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for tracking personal income and expenses, managing budgets, and visualizing financial data through dashboards and reports.
 
 ## Features
 
 - **User Authentication** — Secure registration & login with JWT tokens and bcrypt password hashing
 - **Transaction Management** — Add, edit, and delete income/expense transactions
+- **Budget Management** — Create and monitor category budgets with progress indicators
 - **Categorization** — Organize transactions with predefined categories for income and expenses
 - **Dashboard** — View total income, total expenses, and current balance at a glance
 - **Data Visualization** — Interactive charts (Doughnut, Bar, Line) showing spending patterns and monthly trends
 - **Reports** — Detailed financial reports with category breakdowns, net savings trends, and percentage analysis
 - **Transaction History** — Paginated, filterable list of all transactions
+- **Theme Support** — Light and dark mode toggle
 - **Responsive Design** — Works on desktop, tablet, and mobile
 
 ## Tech Stack
 
-| Layer    | Technology                       |
-| -------- | -------------------------------- |
-| Frontend | React 18, React Router, Chart.js |
-| Backend  | Node.js, Express.js              |
-| Database | MongoDB with Mongoose ODM        |
-| Auth     | JWT + bcryptjs                   |
-| Styling  | Custom CSS (no framework)        |
+| Layer    | Technology                                          |
+| -------- | --------------------------------------------------- |
+| Frontend | React 18, React Router v6, Chart.js, React Toastify |
+| Backend  | Node.js, Express.js, express-validator              |
+| Database | MongoDB with Mongoose ODM                           |
+| Auth     | JWT + bcryptjs                                      |
+| Styling  | Custom CSS (no framework)                           |
 
 ## Project Structure
 
@@ -29,46 +31,59 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for trac
 costwise/
 ├── backend/
 │   ├── config/
-│   │   └── db.js                 # MongoDB connection
+│   │   └── db.js                     # MongoDB connection with retry logic
 │   ├── controllers/
-│   │   ├── authController.js     # Register, login, profile
-│   │   └── transactionController.js  # CRUD + summary aggregation
+│   │   ├── authController.js          # Register, login, profile
+│   │   ├── budgetController.js        # Budget CRUD operations
+│   │   └── transactionController.js   # Transaction CRUD + summary aggregation
+│   ├── data/
+│   │   ├── transactions.json          # Seed transaction data
+│   │   └── users.json                 # Seed user data
 │   ├── middleware/
-│   │   └── auth.js               # JWT authentication middleware
+│   │   └── auth.js                    # JWT authentication middleware
 │   ├── models/
-│   │   ├── User.js               # User schema with password hashing
-│   │   └── Transaction.js        # Transaction schema with indexing
+│   │   ├── Budget.js                  # Budget schema
+│   │   ├── Transaction.js             # Transaction schema with indexing
+│   │   └── User.js                    # User schema with password hashing
 │   ├── routes/
-│   │   ├── auth.js               # Auth routes with validation
-│   │   └── transactions.js       # Transaction routes with validation
-│   ├── server.js                 # Express server entry point
+│   │   ├── auth.js                    # Auth routes with validation
+│   │   ├── budgets.js                 # Budget routes
+│   │   └── transactions.js            # Transaction routes with validation
+│   ├── seed.js                        # Database seeding script
+│   ├── server.js                      # Express server entry point
 │   ├── package.json
-│   └── .env.example
+│   └── .env.example                   # Environment variable template (safe to commit)
 ├── frontend/
 │   ├── public/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Layout.js         # App shell with sidebar
-│   │   │   ├── PrivateRoute.js   # Auth guard
-│   │   │   ├── Sidebar.js        # Navigation sidebar
-│   │   │   ├── TransactionForm.js    # Add/Edit transaction form
-│   │   │   └── TransactionList.js    # Transaction display list
+│   │   │   ├── ApiStatusBar.js        # Backend connection status indicator
+│   │   │   ├── AppHeader.js           # Top navigation bar
+│   │   │   ├── Layout.js              # App shell with sidebar
+│   │   │   ├── PrivateRoute.js        # Auth guard
+│   │   │   ├── Sidebar.js             # Navigation sidebar
+│   │   │   ├── TransactionForm.js     # Add/Edit transaction form
+│   │   │   └── TransactionList.js     # Transaction display list
 │   │   ├── context/
-│   │   │   ├── AuthContext.js    # Authentication state management
-│   │   │   └── TransactionContext.js # Transaction state management
+│   │   │   ├── AuthContext.js         # Authentication state management
+│   │   │   ├── ThemeContext.js        # Light/dark theme state
+│   │   │   └── TransactionContext.js  # Transaction state management
 │   │   ├── pages/
-│   │   │   ├── Dashboard.js      # Main dashboard with summary & charts
-│   │   │   ├── Login.js          # Login page
-│   │   │   ├── Register.js       # Registration page
-│   │   │   ├── Reports.js        # Detailed financial reports
-│   │   │   └── Transactions.js   # Transaction management page
+│   │   │   ├── Budgets.js             # Budget management page
+│   │   │   ├── Dashboard.js           # Main dashboard with summary & charts
+│   │   │   ├── Home.js                # Landing / home page
+│   │   │   ├── Login.js               # Login page
+│   │   │   ├── Register.js            # Registration page
+│   │   │   ├── Reports.js             # Detailed financial reports
+│   │   │   └── Transactions.js        # Transaction management page
 │   │   ├── utils/
-│   │   │   └── api.js            # Axios instance with interceptors
-│   │   ├── App.js                # Root component with routing
-│   │   ├── index.js              # React entry point
-│   │   └── index.css             # Global styles
-│   └── package.json
+│   │   │   └── api.js                 # Axios instance with interceptors
+│   │   ├── App.js                     # Root component with routing
+│   │   ├── index.js                   # React entry point
+│   │   └── index.css                  # Global styles
+│   ├── package.json
+│   └── .env.example                   # Frontend environment variable template
 └── README.md
 ```
 
@@ -87,13 +102,15 @@ cd costwise/backend
 cp .env.example .env
 ```
 
-Edit `.env` with your values:
+Edit `.env` with your actual values (never commit this file):
 
 ```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/costwise
 JWT_SECRET=your_secure_random_secret_here
 ```
+
+> **Security:** Generate a strong `JWT_SECRET` using `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"`.
 
 Install dependencies and start:
 
@@ -108,11 +125,30 @@ The API server starts on `http://localhost:5000`.
 
 ```bash
 cd costwise/frontend
+cp .env.example .env
+```
+
+Edit `.env` with your values (optional — defaults work for local dev):
+
+```
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Install dependencies and start:
+
+```bash
 npm install
 npm start
 ```
 
 The React app starts on `http://localhost:3000` and proxies API requests to the backend.
+
+### 3. Seed Demo Data (Optional)
+
+```bash
+cd costwise/backend
+node seed.js
+```
 
 ## API Endpoints
 
@@ -134,19 +170,53 @@ The React app starts on `http://localhost:3000` and proxies API requests to the 
 | DELETE | /api/transactions/:id     | Delete transaction    |
 | GET    | /api/transactions/summary | Get financial summary |
 
+### Budgets (Protected)
+
+| Method | Endpoint         | Description     |
+| ------ | ---------------- | --------------- |
+| GET    | /api/budgets     | Get all budgets |
+| POST   | /api/budgets     | Create budget   |
+| PUT    | /api/budgets/:id | Update budget   |
+| DELETE | /api/budgets/:id | Delete budget   |
+
+### System
+
+| Method | Endpoint    | Description  |
+| ------ | ----------- | ------------ |
+| GET    | /api/health | Health check |
+
 ## Expense Categories
 
 **Income:** Salary, Freelance, Business, Investment, Rental, Other Income
 
 **Expense:** Food & Dining, Transportation, Housing, Utilities, Healthcare, Entertainment, Shopping, Education, Travel, Personal Care, Insurance, Savings, Other
 
+## Security
+
+- All `.env` files are listed in `.gitignore` and must **never** be committed
+- Use `.env.example` files as templates — they contain placeholder values only
+- The `JWT_SECRET` must be a long, cryptographically random string in production
+- Passwords are hashed with bcryptjs before storage; plain-text passwords are never saved
+- All transaction and budget routes require a valid JWT Bearer token
+
 ## Demo Login Credentials
 
 After running the seed script (`node seed.js`), use these accounts to log in:
 
-| Name       | Email             | Password    | Role                                                   |
-| ---------- | ----------------- | ----------- | ------------------------------------------------------ |
-| John Doe   | john@costwise.com | password123 | Demo user with full transaction history (Jan–Mar 2026) |
-| Jane Smith | jane@costwise.com | password123 | Empty account — register fresh transactions            |
+| Name              | Email                | Password    | Role                                                   |
+| ----------------- | -------------------- | ----------- | ------------------------------------------------------ |
+| Aldrian Loberiano | aldrian@costwise.com | password123 | Demo user with full transaction history (Jan–Mar 2026) |
 
 > **Note:** You can also register a brand new account from the Sign Up page. The seed data is only for demo/testing purposes.
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Aldrian Loberiano
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
