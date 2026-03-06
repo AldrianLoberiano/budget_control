@@ -1,2 +1,17 @@
+# ===== Dependencies =====
 node_modules/
+
+# ===== Environment Variables (SENSITIVE) =====
 .env
+.env.local
+.env.*
+!.env.example
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+logs/
+
+# ===== Runtime =====
+*.pid
+*.seed
