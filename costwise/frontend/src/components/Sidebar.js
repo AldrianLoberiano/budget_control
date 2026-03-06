@@ -20,8 +20,24 @@ const Sidebar = () => {
   const { user, logout } = useAuth();
   const { dark, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    return localStorage.getItem('sidebar-collapsed') === 'true';
+  });
   const location = useLocation();
+
+  const toggleCollapse = () => {
+    setCollapsed((c) => {
+      const next = !c;
+      localStorage.setItem('sidebar-collapsed', String(next));
+      document.documentElement.setAttribute('data-sidebar', next ? 'collapsed' : 'expanded');
+      return next;
+    });
+  };
+
+  // Set initial sidebar state on mount
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-sidebar', collapsed ? 'collapsed' : 'expanded');
+  }, [collapsed]);
 
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: <MdDashboard /> },
@@ -61,7 +77,7 @@ const Sidebar = () => {
           </div>
           <button
             className="sidebar-collapse-btn"
-            onClick={() => setCollapsed((c) => !c)}
+            onClick={toggleCollapse}
             title={collapsed ? 'Expand' : 'Collapse'}
           >
             {collapsed ? <MdChevronRight /> : <MdChevronLeft />}
