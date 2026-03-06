@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/transactions', require('./routes/transactions'));
+app.use('/api/budgets', require('./routes/budgets'));
 
 // Prevent favicon requests from hitting the 404 handler
 app.get('/favicon.ico', (req, res) => res.status(204).end());
