@@ -8,6 +8,7 @@ import {
   MdLogout,
   MdMenu,
   MdClose,
+  MdSavings,
 } from 'react-icons/md';
 
 const Sidebar = () => {
@@ -18,6 +19,7 @@ const Sidebar = () => {
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: <MdDashboard /> },
     { path: '/transactions', label: 'Transactions', icon: <MdReceipt /> },
+    { path: '/budgets', label: 'Budget Goals', icon: <MdSavings /> },
     { path: '/reports', label: 'Reports', icon: <MdBarChart /> },
   ];
 
