@@ -1,5 +1,14 @@
 # CostWise - Budget & Expense Tracker
 
+![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js)
+![Express](https://img.shields.io/badge/Express-4.x-000000?style=flat-square&logo=express)
+![MongoDB](https://img.shields.io/badge/MongoDB-8.x-47A248?style=flat-square&logo=mongodb)
+![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens)
+![Chart.js](https://img.shields.io/badge/Chart.js-4.x-FF6384?style=flat-square&logo=chart.js)
+![React Router](https://img.shields.io/badge/React_Router-6.x-CA4245?style=flat-square&logo=react-router)
+![Axios](https://img.shields.io/badge/Axios-1.x-5A29E4?style=flat-square&logo=axios)
+
 A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for tracking personal income and expenses, managing budgets, and visualizing financial data through dashboards and reports.
 
 ## Features
