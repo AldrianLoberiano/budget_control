@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { MdArrowBack } from 'react-icons/md';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -40,6 +41,9 @@ const Register = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <Link to="/" className="back-to-home">
+          <MdArrowBack /> Back to Home
+        </Link>
         <Link to="/" className="home-logo" style={{ display: 'block', textAlign: 'center', marginBottom: 24, fontSize: '1.6rem', textDecoration: 'none' }}>
           Cost<span>Wise</span>
         </Link>
