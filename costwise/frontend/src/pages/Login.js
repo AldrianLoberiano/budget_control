@@ -32,6 +32,9 @@ const Login = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <Link to="/" className="home-logo" style={{ display: 'block', textAlign: 'center', marginBottom: 24, fontSize: '1.6rem', textDecoration: 'none' }}>
+          Cost<span>Wise</span>
+        </Link>
         <h2>Welcome Back</h2>
         <p className="subtitle">Sign in to your CostWise account</p>
 
