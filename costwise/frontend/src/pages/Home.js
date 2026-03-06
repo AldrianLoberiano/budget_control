@@ -8,6 +8,8 @@ import {
   MdDevices,
   MdReceipt,
   MdBarChart,
+  MdSavings,
+  MdFileDownload,
 } from 'react-icons/md';
 
 const Home = () => {
@@ -121,6 +123,20 @@ const Home = () => {
             </div>
             <h3>Monthly Trends</h3>
             <p>See how your spending evolves month-to-month with detailed trend analysis.</p>
+          </div>
+          <div className="home-feature-card">
+            <div className="home-feature-icon">
+              <MdSavings />
+            </div>
+            <h3>Budget Goals</h3>
+            <p>Set spending limits per category and track progress with visual indicators.</p>
+          </div>
+          <div className="home-feature-card">
+            <div className="home-feature-icon">
+              <MdFileDownload />
+            </div>
+            <h3>Export to CSV</h3>
+            <p>Download your transaction data as CSV for offline analysis or record-keeping.</p>
           </div>
           <div className="home-feature-card">
             <div className="home-feature-icon">
