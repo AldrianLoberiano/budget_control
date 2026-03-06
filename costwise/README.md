@@ -11,8 +11,11 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for trac
 - **Dashboard** — View total income, total expenses, and current balance at a glance
 - **Data Visualization** — Interactive charts (Doughnut, Bar, Line) showing spending patterns and monthly trends
 - **Reports** — Detailed financial reports with category breakdowns, net savings trends, and percentage analysis
-- **Transaction History** — Paginated, filterable list of all transactions
-- **Theme Support** — Light and dark mode toggle
+- **Transaction History** — Paginated list of all transactions with type, category, and date range filters
+- **Smart Search** — Instantly search transactions by description or category
+- **CSV Export** — Download filtered transaction data as a CSV file for offline analysis or record-keeping
+- **Live API Status Bar** — Real-time overlay showing API request method, URL, status code, and response time
+- **Theme Support** — Light and dark mode toggle with preference saved to localStorage
 - **Responsive Design** — Works on desktop, tablet, and mobile
 
 ## Tech Stack
@@ -24,6 +27,85 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for trac
 | Database | MongoDB with Mongoose ODM                           |
 | Auth     | JWT + bcryptjs                                      |
 | Styling  | Custom CSS (no framework)                           |
+
+## Architecture
+
+CostWise follows a classic **3-tier MERN architecture** with a clear separation between the presentation layer, business logic, and data storage.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        BROWSER (Client)                         │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │                  React 18 Application                    │  │
+│  │                                                          │  │
+│  │  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │  │
+│  │  │   Context   │  │    Pages     │  │  Components   │  │  │
+│  │  │ AuthContext │  │  Dashboard   │  │  Sidebar      │  │  │
+│  │  │ ThemeContext│  │  Transactions│  │  AppHeader    │  │  │
+│  │  │ Transaction │  │  Budgets     │  │  TransactionForm  │  │
+│  │  │ Context     │  │  Reports     │  │  ApiStatusBar │  │  │
+│  │  └──────┬──────┘  └──────────────┘  └───────────────┘  │  │
+│  │         │                                                  │  │
+│  │  ┌──────▼──────────────────────────────────────────────┐  │  │
+│  │  │         Axios Instance  (utils/api.js)              │  │  │
+│  │  │  • Attaches JWT Bearer token on every request       │  │  │
+│  │  │  • Measures response time & fires api-status events │  │  │
+│  │  │  • Auto-redirects to /login on 401 responses        │  │  │
+│  │  └──────────────────────┬──────────────────────────────┘  │  │
+│  └─────────────────────────│──────────────────────────────────┘  │
+└────────────────────────────│────────────────────────────────────┘
+                             │  HTTP / JSON  (port 3000 → 5000)
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    EXPRESS API SERVER (port 5000)               │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │                     Middleware Layer                     │  │
+│  │   CORS  │  express.json()  │  Request Logger             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                             │                                   │
+│  ┌──────────────────────────▼──────────────────────────────┐   │
+│  │                       Routes                            │   │
+│  │   /api/auth          /api/transactions    /api/budgets  │   │
+│  └──────┬───────────────────────┬──────────────────┬───────┘   │
+│         │                       │                  │            │
+│  ┌──────▼──────┐  ┌─────────────▼────┐  ┌─────────▼────────┐  │
+│  │    Auth     │  │   Transaction    │  │     Budget       │  │
+│  │ Controller  │  │   Controller     │  │   Controller     │  │
+│  │  register   │  │  CRUD + summary  │  │  CRUD + progress │  │
+│  │  login      │  │  aggregation     │  │  tracking        │  │
+│  │  getMe      │  │  CSV export      │  └──────────────────┘  │
+│  └──────┬──────┘  └──────────────────┘                        │
+│         │                                                       │
+│  ┌──────▼──────────────────────────────────────────────────┐   │
+│  │               JWT Auth Middleware (auth.js)             │   │
+│  │   Verifies Bearer token → attaches req.user             │   │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │                    Mongoose Models                       │  │
+│  │    User.js   │   Transaction.js   │   Budget.js          │  │
+│  └──────────────────────────┬───────────────────────────────┘  │
+└───────────────────────────────────────────────────────────────┘
+                              │  Mongoose ODM
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                         MongoDB                                 │
+│                                                                 │
+│   ┌──────────────┐   ┌───────────────────┐   ┌──────────────┐  │
+│   │  users       │   │   transactions    │   │   budgets    │  │
+│   │  collection  │   │   collection      │   │  collection  │  │
+│   └──────────────┘   └───────────────────┘   └──────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Data Flow
+
+1. **Auth flow** — User submits credentials → Express validates → bcryptjs compares hashed password → JWT signed with `JWT_SECRET` → token stored in `localStorage` → attached as `Authorization: Bearer <token>` on every subsequent request.
+2. **Protected request flow** — Axios attaches JWT → Express `auth` middleware verifies token → `req.user` populated → controller executes business logic → Mongoose queries MongoDB → JSON response returned.
+3. **State management** — `AuthContext` holds user session, `TransactionContext` holds fetched transactions and summary, `ThemeContext` persists light/dark preference in `localStorage`.
+4. **Real-time API feedback** — Axios interceptors emit a `CustomEvent` (`api-status`) after every request; `ApiStatusBar` listens and renders the last 8 calls with method, URL, status code, and duration.
 
 ## Project Structure
 
