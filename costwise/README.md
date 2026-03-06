@@ -7,7 +7,7 @@
 ![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens)
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.x-FF6384?style=flat-square&logo=chart.js)
 ![React Router](https://img.shields.io/badge/React_Router-6.x-CA4245?style=flat-square&logo=react-router)
-
+![Axios](https://img.shields.io/badge/Axios-1.x-5A29E4?style=flat-square&logo=axios)
 
 A full-stack MERN (MongoDB, Express.js, React, Node.js) web application for tracking personal income and expenses, managing budgets, and visualizing financial data through dashboards and reports.
 
