@@ -20,6 +20,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Request logger middleware – logs method, path, status code and response time
+app.use((req, res, next) => {
+  const start = Date.now();
+  const originalEnd = res.end;
+  res.end = function (...args) {
+    const duration = Date.now() - start;
+    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`);
+    originalEnd.apply(res, args);
+  };
+  next();
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.json({ message: 'CostWise API is running', version: '1.0.0' });
