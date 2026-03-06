@@ -19,7 +19,7 @@ const connectDB = async (retries = 0) => {
     } else {
       console.error('Max retries reached. Could not connect to MongoDB.');
       console.error('Please check: 1) Atlas cluster is not paused  2) IP is whitelisted  3) Password is correct');
-      process.exit(1);
+      console.error('Server will remain running but database operations will fail until MongoDB is available.');
     }
   }
 };
