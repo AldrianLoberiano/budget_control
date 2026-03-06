@@ -35,8 +35,8 @@ const Transaction = mongoose.model('Transaction', transactionSchema);
 // ── Seed data ────────────────────────────────────────────────────────────────
 const seedUsers = [
   {
-    name: 'John Doe',
-    email: 'john@costwise.com',
+    name: 'Aldrian Loberiano',
+    email: 'aldrian@costwise.com',
     password: 'password123',
   },
   {
@@ -128,14 +128,14 @@ const seed = async () => {
       console.log(`✓ Created user: ${user.email}`);
     }
 
-    // Create transactions for the first user (John Doe)
+    // Create transactions for the first user (Aldrian Loberiano)
     const txns = generateTransactions(createdUsers[0]._id);
     await Transaction.insertMany(txns);
     console.log(`✓ Inserted ${txns.length} transactions for ${createdUsers[0].name}`);
 
     console.log('\n═══════════════════════════════════════════');
     console.log('  Seed complete! Login credentials:');
-    console.log('  Email   : john@costwise.com');
+    console.log('  Email   : aldrian@costwise.com');
     console.log('  Password: password123');
     console.log('═══════════════════════════════════════════\n');
 
