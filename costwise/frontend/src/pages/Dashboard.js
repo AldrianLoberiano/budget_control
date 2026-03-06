@@ -63,7 +63,7 @@ const Dashboard = () => {
   };
 
   const formatCurrency = (amount) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount || 0);
+    new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount || 0);
 
   // Doughnut chart data for category breakdown
   const categoryColors = [
@@ -184,7 +184,7 @@ const Dashboard = () => {
                   responsive: true,
                   plugins: { legend: { position: 'bottom' } },
                   scales: {
-                    y: { beginAtZero: true, ticks: { callback: (v) => '$' + v } },
+                    y: { beginAtZero: true, ticks: { callback: (v) => '₱' + v } },
                   },
                 }}
               />
