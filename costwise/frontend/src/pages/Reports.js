@@ -37,7 +37,7 @@ const Reports = () => {
   }, [fetchSummary]);
 
   const formatCurrency = (amount) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount || 0);
+    new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount || 0);
 
   if (!summary) {
     return (
@@ -208,7 +208,7 @@ const Reports = () => {
                 responsive: true,
                 plugins: { legend: { position: 'bottom' } },
                 scales: {
-                  y: { beginAtZero: true, ticks: { callback: (v) => '$' + v } },
+                  y: { beginAtZero: true, ticks: { callback: (v) => '₱' + v } },
                 },
               }}
             />
@@ -222,7 +222,7 @@ const Reports = () => {
                 responsive: true,
                 plugins: { legend: { position: 'bottom' } },
                 scales: {
-                  y: { ticks: { callback: (v) => '$' + v } },
+                  y: { ticks: { callback: (v) => '₱' + v } },
                 },
               }}
             />
