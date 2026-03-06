@@ -40,6 +40,9 @@ const Register = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <Link to="/" className="home-logo" style={{ display: 'block', textAlign: 'center', marginBottom: 24, fontSize: '1.6rem', textDecoration: 'none' }}>
+          Cost<span>Wise</span>
+        </Link>
         <h2>Create Account</h2>
         <p className="subtitle">Start tracking your finances with CostWise</p>
 
