@@ -2,7 +2,7 @@
 node_modules/
 **/node_modules/
 
-# ===== Environment Variables (SENSITIVE) =====
+# ===== Environment Variables & Secrets (NEVER COMMIT) =====
 .env
 .env.local
 .env.development
@@ -11,9 +11,28 @@ node_modules/
 .env.test.local
 .env.production
 .env.production.local
+.env.staging
 **/.env
 **/.env.*
 !**/.env.example
+
+# ===== Secret / Key Files (NEVER COMMIT) =====
+*.pem
+*.key
+*.p12
+*.pfx
+*.cert
+*.crt
+*.cer
+*.der
+secrets.json
+secrets.yaml
+secrets.yml
+*secret*
+*secrets*
+*credential*
+*credentials*
+service-account*.json
 
 # ===== Build Outputs =====
 /frontend/build/
@@ -28,14 +47,22 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# ===== Runtime / OS =====
+# ===== Runtime & Process =====
+*.pid
+*.seed
+*.pid.lock
+
+# ===== OS Artifacts =====
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-*.pem
-*.key
-*.cert
-*.crt
+desktop.ini
 
 # ===== IDE & Editor =====
 .vscode/
@@ -45,9 +72,23 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
 
-# ===== Testing =====
+# ===== Testing & Coverage =====
 coverage/
+.nyc_output/
+
+# ===== Package Manager Locks (optional — remove if you want to commit these) =====
+# yarn.lock
+# package-lock.json
+
+# ===== Miscellaneous =====
+*.tgz
+*.tar.gz
+.cache/
+tmp/
+temp/
 .nyc_output/
 
 # ===== Misc =====
