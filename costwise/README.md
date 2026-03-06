@@ -139,3 +139,14 @@ The React app starts on `http://localhost:3000` and proxies API requests to the 
 **Income:** Salary, Freelance, Business, Investment, Rental, Other Income
 
 **Expense:** Food & Dining, Transportation, Housing, Utilities, Healthcare, Entertainment, Shopping, Education, Travel, Personal Care, Insurance, Savings, Other
+
+## Demo Login Credentials
+
+After running the seed script (`node seed.js`), use these accounts to log in:
+
+| Name       | Email             | Password    | Role                                                   |
+| ---------- | ----------------- | ----------- | ------------------------------------------------------ |
+| John Doe   | john@costwise.com | password123 | Demo user with full transaction history (Jan–Mar 2026) |
+| Jane Smith | jane@costwise.com | password123 | Empty account — register fresh transactions            |
+
+> **Note:** You can also register a brand new account from the Sign Up page. The seed data is only for demo/testing purposes.
