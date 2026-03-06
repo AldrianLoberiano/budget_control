@@ -185,10 +185,32 @@ const getSummary = async (req, res) => {
   }
 };
 
+// @desc    Export transactions as CSV
+// @route   GET /api/transactions/export
+const exportCSV = async (req, res) => {
+  try {
+    const transactions = await Transaction.find({ user: req.user._id }).sort({ date: -1 });
+
+    const header = 'Date,Type,Category,Amount,Description\n';
+    const rows = transactions.map((t) => {
+      const date = new Date(t.date).toISOString().split('T')[0];
+      const desc = (t.description || '').replace(/"/g, '""');
+      return `${date},${t.type},${t.category},${t.amount},"${desc}"`;
+    });
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=costwise-transactions.csv');
+    res.send(header + rows.join('\n'));
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getTransactions,
   addTransaction,
   updateTransaction,
   deleteTransaction,
   getSummary,
+  exportCSV,
 };
