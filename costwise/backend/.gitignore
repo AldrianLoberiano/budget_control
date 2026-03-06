@@ -1,17 +1,49 @@
 # ===== Dependencies =====
 node_modules/
 
-# ===== Environment Variables (SENSITIVE) =====
+# ===== Environment Variables & Secrets (NEVER COMMIT) =====
 .env
 .env.local
 .env.*
 !.env.example
 
+# ===== Secret / Key Files (NEVER COMMIT) =====
+*.pem
+*.key
+*.p12
+*.pfx
+*.cert
+*.crt
+secrets.json
+secrets.yaml
+secrets.yml
+*secret*
+*credential*
+service-account*.json
+
 # ===== Logs =====
 *.log
 npm-debug.log*
+yarn-debug.log*
 logs/
 
 # ===== Runtime =====
 *.pid
 *.seed
+*.pid.lock
+
+# ===== Build / Dist =====
+dist/
+build/
+
+# ===== OS Artifacts =====
+.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.vscode/
+.idea/
+
+# ===== Testing =====
+coverage/
+.nyc_output/
