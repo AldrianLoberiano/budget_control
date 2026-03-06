@@ -86,18 +86,18 @@ const Budgets = () => {
       <div className="budget-summary">
         <div className="card budget-summary-card">
           <span className="budget-summary-label">Total Budget</span>
-          <span className="budget-summary-value">${totalLimit.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+          <span className="budget-summary-value">₱{totalLimit.toLocaleString('en-PH', { minimumFractionDigits: 2 })}</span>
         </div>
         <div className="card budget-summary-card">
           <span className="budget-summary-label">Total Spent</span>
           <span className="budget-summary-value" style={{ color: totalSpent > totalLimit ? '#dc2626' : undefined }}>
-            ${totalSpent.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ₱{totalSpent.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
           </span>
         </div>
         <div className="card budget-summary-card">
           <span className="budget-summary-label">Remaining</span>
           <span className="budget-summary-value" style={{ color: totalLimit - totalSpent < 0 ? '#dc2626' : '#22c55e' }}>
-            ${(totalLimit - totalSpent).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ₱{(totalLimit - totalSpent).toLocaleString('en-PH', { minimumFractionDigits: 2 })}
           </span>
         </div>
       </div>
@@ -137,10 +137,10 @@ const Budgets = () => {
                     <span className="budget-pct">{Math.round(b.percentage || 0)}%</span>
                   </div>
                   <div className="budget-item-footer">
-                    <span>${(b.spent || 0).toFixed(2)} spent</span>
-                    <span>${b.limit.toFixed(2)} limit</span>
+                    <span>₱{(b.spent || 0).toFixed(2)} spent</span>
+                    <span>₱{b.limit.toFixed(2)} limit</span>
                     <span style={{ color: over ? '#dc2626' : '#22c55e', fontWeight: 600 }}>
-                      ${(b.remaining ?? b.limit).toFixed(2)} left
+                      ₱{(b.remaining ?? b.limit).toFixed(2)} left
                     </span>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ const Budgets = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Spending Limit ($)</label>
+                <label>Spending Limit (₱)</label>
                 <input
                   type="number"
                   min="0.01"
