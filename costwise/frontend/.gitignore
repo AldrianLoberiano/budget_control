@@ -1,0 +1,23 @@
+# ===== Dependencies =====
+node_modules/
+
+# ===== Environment Variables (SENSITIVE) =====
+.env
+.env.local
+.env.*
+!.env.example
+
+# ===== Build Output =====
+build/
+.cache/
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+
+# ===== Testing =====
+coverage/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
