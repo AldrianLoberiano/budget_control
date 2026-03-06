@@ -111,62 +111,65 @@ CostWise follows a classic **3-tier MERN architecture** with a clear separation 
 
 ```
 costwise/
+├── .gitignore                              # Root-level git ignore rules
+├── README.md
 ├── backend/
 │   ├── config/
-│   │   └── db.js                     # MongoDB connection with retry logic
+│   │   └── db.js                          # MongoDB connection with retry logic
 │   ├── controllers/
-│   │   ├── authController.js          # Register, login, profile
-│   │   ├── budgetController.js        # Budget CRUD operations
-│   │   └── transactionController.js   # Transaction CRUD + summary aggregation
+│   │   ├── authController.js              # Register, login, get profile
+│   │   ├── budgetController.js            # Budget CRUD + progress tracking
+│   │   └── transactionController.js       # Transaction CRUD, summary aggregation, CSV export
 │   ├── data/
-│   │   ├── transactions.json          # Seed transaction data
-│   │   └── users.json                 # Seed user data
+│   │   ├── transactions.json              # Seed transaction data
+│   │   └── users.json                     # Seed user data
 │   ├── middleware/
-│   │   └── auth.js                    # JWT authentication middleware
+│   │   └── auth.js                        # JWT Bearer token verification
 │   ├── models/
-│   │   ├── Budget.js                  # Budget schema
-│   │   ├── Transaction.js             # Transaction schema with indexing
-│   │   └── User.js                    # User schema with password hashing
+│   │   ├── Budget.js                      # Budget schema (category, limit, period)
+│   │   ├── Transaction.js                 # Transaction schema with indexing
+│   │   └── User.js                        # User schema with bcrypt password hashing
 │   ├── routes/
-│   │   ├── auth.js                    # Auth routes with validation
-│   │   ├── budgets.js                 # Budget routes
-│   │   └── transactions.js            # Transaction routes with validation
-│   ├── seed.js                        # Database seeding script
-│   ├── server.js                      # Express server entry point
+│   │   ├── auth.js                        # POST /register, POST /login, GET /me
+│   │   ├── budgets.js                     # CRUD /api/budgets
+│   │   └── transactions.js                # CRUD /api/transactions + /summary + /export
+│   ├── seed.js                            # Database seeding script
+│   ├── server.js                          # Express app entry point
 │   ├── package.json
-│   └── .env.example                   # Environment variable template (safe to commit)
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ApiStatusBar.js        # Backend connection status indicator
-│   │   │   ├── AppHeader.js           # Top navigation bar
-│   │   │   ├── Layout.js              # App shell with sidebar
-│   │   │   ├── PrivateRoute.js        # Auth guard
-│   │   │   ├── Sidebar.js             # Navigation sidebar
-│   │   │   ├── TransactionForm.js     # Add/Edit transaction form
-│   │   │   └── TransactionList.js     # Transaction display list
-│   │   ├── context/
-│   │   │   ├── AuthContext.js         # Authentication state management
-│   │   │   ├── ThemeContext.js        # Light/dark theme state
-│   │   │   └── TransactionContext.js  # Transaction state management
-│   │   ├── pages/
-│   │   │   ├── Budgets.js             # Budget management page
-│   │   │   ├── Dashboard.js           # Main dashboard with summary & charts
-│   │   │   ├── Home.js                # Landing / home page
-│   │   │   ├── Login.js               # Login page
-│   │   │   ├── Register.js            # Registration page
-│   │   │   ├── Reports.js             # Detailed financial reports
-│   │   │   └── Transactions.js        # Transaction management page
-│   │   ├── utils/
-│   │   │   └── api.js                 # Axios instance with interceptors
-│   │   ├── App.js                     # Root component with routing
-│   │   ├── index.js                   # React entry point
-│   │   └── index.css                  # Global styles
-│   ├── package.json
-│   └── .env.example                   # Frontend environment variable template
-└── README.md
+│   ├── package-lock.json
+│   └── .env.example                       # Environment variable template (safe to commit)
+└── frontend/
+    ├── public/
+    │   └── index.html                     # HTML entry point
+    ├── src/
+    │   ├── components/
+    │   │   ├── ApiStatusBar.js            # Live API request log overlay
+    │   │   ├── AppHeader.js               # Top navigation bar with theme toggle
+    │   │   ├── Layout.js                  # App shell wrapping Sidebar + AppHeader
+    │   │   ├── PrivateRoute.js            # Auth guard — redirects to /login if unauthenticated
+    │   │   ├── Sidebar.js                 # Navigation sidebar with route links
+    │   │   ├── TransactionForm.js         # Add / Edit transaction form
+    │   │   └── TransactionList.js         # Paginated, sortable transaction table
+    │   ├── context/
+    │   │   ├── AuthContext.js             # User session state + login/logout helpers
+    │   │   ├── ThemeContext.js            # Light/dark theme state persisted in localStorage
+    │   │   └── TransactionContext.js      # Transactions, summary, pagination state
+    │   ├── pages/
+    │   │   ├── Budgets.js                 # Budget goals — create, track progress, delete
+    │   │   ├── Dashboard.js               # Summary cards + Doughnut & Bar charts
+    │   │   ├── Home.js                    # Public landing page with features & reviews
+    │   │   ├── Login.js                   # Login page
+    │   │   ├── Register.js                # Registration page
+    │   │   ├── Reports.js                 # Category Doughnut, Bar, and Line trend charts
+    │   │   └── Transactions.js            # Full transaction list with search, filter & CSV export
+    │   ├── utils/
+    │   │   └── api.js                     # Axios instance — JWT injection, status events, 401 redirect
+    │   ├── App.js                         # Root component with React Router routes
+    │   ├── index.js                       # React DOM entry point
+    │   └── index.css                      # Global CSS variables and base styles
+    ├── package.json
+    ├── package-lock.json
+    └── .env.example                       # Frontend environment variable template (safe to commit)
 ```
 
 ## Getting Started
