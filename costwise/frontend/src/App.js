@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
 import { TransactionProvider } from './context/TransactionContext';
+import { ThemeProvider } from './context/ThemeContext';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,6 +16,7 @@ import Budgets from './pages/Budgets';
 
 function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <TransactionProvider>
         <Router>
@@ -60,6 +62,7 @@ function App() {
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       </TransactionProvider>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 
