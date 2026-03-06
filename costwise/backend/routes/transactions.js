@@ -6,6 +6,7 @@ const {
   updateTransaction,
   deleteTransaction,
   getSummary,
+  exportCSV,
 } = require('../controllers/transactionController');
 const { protect } = require('../middleware/auth');
 
@@ -30,6 +31,7 @@ const updateValidation = [
 ];
 
 router.get('/summary', getSummary);
+router.get('/export', exportCSV);
 router.route('/').get(getTransactions).post(transactionValidation, addTransaction);
 router.route('/:id').put(updateValidation, updateTransaction).delete(deleteTransaction);
 
