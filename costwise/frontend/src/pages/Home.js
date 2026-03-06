@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   MdTrendingUp,
   MdPieChart,
@@ -10,10 +11,15 @@ import {
   MdBarChart,
   MdSavings,
   MdFileDownload,
+  MdDarkMode,
+  MdLightMode,
+  MdSearch,
+  MdFilterList,
 } from 'react-icons/md';
 
 const Home = () => {
   const { user } = useAuth();
+  const { dark, toggleTheme } = useTheme();
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
@@ -28,6 +34,9 @@ const Home = () => {
             Cost<span>Wise</span>
           </div>
           <div className="home-nav-links">
+            <button className="btn btn-icon-round" onClick={toggleTheme} title="Toggle theme">
+              {dark ? <MdLightMode /> : <MdDarkMode />}
+            </button>
             <Link to="/login" className="btn btn-outline">Sign In</Link>
             <Link to="/register" className="btn btn-primary">Get Started</Link>
           </div>
@@ -77,7 +86,7 @@ const Home = () => {
             <div className="home-preview-body">
               <div className="home-preview-row">
                 <div className="home-preview-label">Total Balance</div>
-                <div className="home-preview-value">$12,450.00</div>
+                <div className="home-preview-value">₱12,450.00</div>
               </div>
               <div className="home-preview-bars">
                 <div className="home-preview-bar income" style={{ width: '75%' }}>Income</div>
@@ -137,6 +146,27 @@ const Home = () => {
             </div>
             <h3>Export to CSV</h3>
             <p>Download your transaction data as CSV for offline analysis or record-keeping.</p>
+          </div>
+          <div className="home-feature-card">
+            <div className="home-feature-icon">
+              <MdSearch />
+            </div>
+            <h3>Smart Search</h3>
+            <p>Quickly find any transaction with powerful search and date range filters.</p>
+          </div>
+          <div className="home-feature-card">
+            <div className="home-feature-icon">
+              <MdFilterList />
+            </div>
+            <h3>Advanced Filters</h3>
+            <p>Filter by type, category, and date range to see exactly what you need.</p>
+          </div>
+          <div className="home-feature-card">
+            <div className="home-feature-icon">
+              <MdDarkMode />
+            </div>
+            <h3>Dark Mode</h3>
+            <p>Easy on the eyes with a beautiful dark theme you can toggle anytime.</p>
           </div>
           <div className="home-feature-card">
             <div className="home-feature-icon">
