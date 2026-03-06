@@ -1,0 +1,16 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john@costwise.com",
+    "password": "$2a$12$KIf8/3WnIRi9O9BzRoE0/.Q5Gu4oAj4dAMm2L9r5WQQ8GXi0e8hVe",
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "name": "Jane Smith",
+    "email": "jane@costwise.com",
+    "password": "$2a$12$KIf8/3WnIRi9O9BzRoE0/.Q5Gu4oAj4dAMm2L9r5WQQ8GXi0e8hVe",
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  }
+]
